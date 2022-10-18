@@ -1,12 +1,27 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Seo from "../components/Seo";
 
-export default function home({ results }) {
+// export default function home() {
+  export default function home({results}) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   const navigate = (id, title) => {
     router.push(`/movies/${title}/${id}`);
   };
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // const [results, setResults] = useState([])
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // useEffect(() => {
+  //   fetch(`http://localhost:3000/api/movies`).then((res) => {
+  //     return res.json()
+  //   }).then((res) => {
+  //     setResults(res.results)
+  //   })
+  // }, [])
 
   return (
     <div className="mainDiv">
@@ -25,14 +40,15 @@ export default function home({ results }) {
         ))}
         <style jsx>{`
           .mainDiv {
-            /* width: 1000px; */
+            width: 100vw;
             display: flex;
             justify-content: center;
+            align-items :center;
           }
           .container {
             /* width: 1000px; */
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 300px 300px;
             padding: 20px;
             gap: 20px;
             justify-content: center;
@@ -63,10 +79,25 @@ export default function home({ results }) {
   );
 }
 
-export async function getServerSideProps() {
+//! SSR
+// export async function getServerSideProps() {
+//   const { results } = await (
+//     await fetch(`http://localhost:3000/api/movies`)
+//   ).json();
+//   // console.log(results)
+//   return {
+//     props: {
+//       results,
+//     },
+//   };
+// }
+
+//! SSG
+export async function getStaticProps() {
   const { results } = await (
     await fetch(`http://localhost:3000/api/movies`)
   ).json();
+  // console.log(results)
   return {
     props: {
       results,
